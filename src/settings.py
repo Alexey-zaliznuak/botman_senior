@@ -13,7 +13,7 @@ class Settings(BaseSettings):
         GuideCommand("menu", "Меню", "https://help.botman.pro/article/15770"),
         GuideCommand("vars", "Переменные", "https://help.botman.pro/article/15494"),
         GuideCommand("global_vars", "Глобальные переменные", "https://help.botman.pro/article/21105"),
-        GuideCommand("tinkoff2", "Тинькофф эквайринг", "https://help.botman.pro/article/16521"),
+        GuideCommand("tinkoff", "Тинькофф эквайринг", "https://help.botman.pro/article/16521"),
     ], key = lambda c: c.description)
 
     class Config:

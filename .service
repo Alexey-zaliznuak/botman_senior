@@ -1,0 +1,12 @@
+[Unit]
+Description=My Telegram Bot
+After=network.target
+
+[Service]
+User=admin
+WorkingDirectory=/home/admin/botman_senior
+ExecStart=/home/admin/botman_senior/venv/bin/python /home/admin/botman_senior/src/bot.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
