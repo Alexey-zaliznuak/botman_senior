@@ -5,7 +5,7 @@ COMMAND_PREFIX = "/"
 
 
 class GuideCommand:
-    BASE_GUIDE_ANSWER_MESSAGE: str = "Конечно, держите наш гайд."
+    BASE_GUIDE_ANSWER_MESSAGE: str = "Конечно, держите наш гайд!"
 
     def __init__(self, command: str, description: str, doc_url: str, about: str | None = None):
         """
