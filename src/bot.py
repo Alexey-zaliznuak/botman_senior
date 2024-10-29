@@ -22,6 +22,8 @@ async def process_message(message: Message):
     else:
         print("Гайд не выбран")
 
+    await message.delete()
+
 
 # not work....................
 async def setup_bot_commands():
