@@ -13,9 +13,12 @@ dp = Dispatcher()
 async def process_message(message: Message):
     print("Сообщение получено")
     command = get_command(message.text)
+
+    # Проверка, является ли текущее сообщение ответом на другое
     if command:
         print("Найдена команда", command.description)
-        await message.reply(str(command) or "cmd")
+        target_message = message.reply_to_message or message  # если есть ответ, выбираем его, иначе текущее сообщение
+        await target_message.reply(str(command) or "cmd")
     else:
         print("Гайд не выбран")
 
