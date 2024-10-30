@@ -4,6 +4,10 @@ from pydantic_settings import BaseSettings
 
 from guide_command import GuideCommand
 
+import dotenv
+
+dotenv.load_dotenv(override=True)
+
 
 class Settings(BaseSettings):
     BOT_TOKEN: str
