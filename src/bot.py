@@ -9,6 +9,8 @@ from utils import get_command
 bot = Bot(token = Settings.BOT_TOKEN)
 dp = Dispatcher()
 
+BOT_USERNAME = "@botman_senior_bot"
+
 @dp.message()
 async def process_message(message: Message):
     command = get_command(message.text)
@@ -17,13 +19,15 @@ async def process_message(message: Message):
         return
 
     reply_target_message = message
+    super_reply = False
 
     if message.reply_to_message:
+        super_reply = True
         reply_target_message = message.reply_to_message
 
     await reply_target_message.reply(str(command))
 
-    if message.text.strip() == command.command:
+    if super_reply and message.text.strip() == command.command or command.command + BOT_USERNAME:
         await message.delete()
 
 # not work....................
