@@ -32,9 +32,13 @@ async def process_message(message: Message):
 
 # not work....................
 async def setup_bot_commands():
-    pass
-    # commands = [c.as_telegram_command() for c in Settings.COMMANDS]
-    # await bot.set_my_commands(commands)
+    commands = [c.as_telegram_command() for c in Settings.COMMANDS]
+    await bot.set_my_commands(commands)
+    print("Commands updated.")
+
+async def main():
+    await setup_bot_commands()
+    await dp.start_polling(bot, skip_updates=True)
 
 if __name__ == '__main__':
-    asyncio.run(dp.start_polling(bot, skip_updates=True, on_startup=setup_bot_commands))
+    asyncio.run(main())
