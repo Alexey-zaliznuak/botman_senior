@@ -11,19 +11,20 @@ dp = Dispatcher()
 
 @dp.message()
 async def process_message(message: Message):
-    print("Сообщение получено")
     command = get_command(message.text)
 
-    # Проверка, является ли текущее сообщение ответом на другое
-    if command:
-        print("Найдена команда", command.description)
-        target_message = message.reply_to_message or message  # если есть ответ, выбираем его, иначе текущее сообщение
-        await target_message.reply(str(command) or "cmd")
-    else:
-        print("Гайд не выбран")
+    if not command:
+        return
 
-    await message.delete()
+    reply_target_message = message
 
+    if message.reply_to_message:
+        reply_target_message = message.reply_to_message
+
+    await reply_target_message.reply(str(command))
+
+    if message.text.strip() == command.command:
+        await message.delete()
 
 # not work....................
 async def setup_bot_commands():
