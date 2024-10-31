@@ -14,12 +14,12 @@ BOT_USERNAME = "@botman_senior_bot"
 @dp.message()
 async def process_message(message: Message):
     command = get_command(message.text)
+    text_contains_only_command = message.text.strip() in [command.command, command.command + BOT_USERNAME]
+    reply_target_message = message
+    super_reply = False
 
     if not command:
         return
-
-    reply_target_message = message
-    super_reply = False
 
     if message.reply_to_message:
         super_reply = True
@@ -27,7 +27,7 @@ async def process_message(message: Message):
 
     await reply_target_message.reply(str(command))
 
-    if super_reply and message.text.strip() == command.command or command.command + BOT_USERNAME:
+    if super_reply and text_contains_only_command:
         await message.delete()
 
 # not work....................
