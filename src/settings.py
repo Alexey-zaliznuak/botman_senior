@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     BOT_TOKEN: str
     COMMANDS: List[GuideCommand] = sorted([
         # Agents
-        GuideCommand("agents", "Агенты", "https://help.botman.pro/category/3614"),
+        GuideCommand("agents", "Агенты", "https://help.botman.pro/article/15881"),
 
 
         # Random choise
