@@ -5,7 +5,7 @@ from settings import Settings
 
 
 lru_cache(maxsize=None)
-def get_command(message: str) -> None | GuideCommand:
+def parse_command(message: str) -> None | GuideCommand:
     for command in Settings.COMMANDS:
         if command.command in message:
             return command

@@ -4,3 +4,4 @@ test.py
 .vscode/
 .env
 temp.txt
+*.log
