@@ -30,7 +30,7 @@ class DeletedMessagesTracker:
     messages: list[TrackingMessage] = []
     bot: Bot
 
-    tracking_delay = 4
+    tracking_delay = 60
 
     tracking_started = False
 

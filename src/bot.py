@@ -48,9 +48,9 @@ async def process_guide_command(message: Message):
 
     if super_reply and text_contains_only_command:
         await message.delete()
-
-    await GuideCommandsDeletedMessagesTracker.add_tracking_message(reply_target_message)
-
+    else:
+        # No tracks message which is indirect trigger
+        await GuideCommandsDeletedMessagesTracker.add_tracking_message(reply_target_message)
 
 async def setup_bot_commands():
     commands = [c.as_telegram_command() for c in Settings.COMMANDS]
