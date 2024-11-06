@@ -10,6 +10,8 @@ from aiogram.types import Message
 logger = logging.getLogger()
 
 
+GROUP_ANONYMOUS_BOT = "GroupAnonymousBot"
+
 
 @dataclass
 class TrackingMessage:
@@ -64,7 +66,8 @@ class DeletedMessagesTracker:
 
     async def process_tracking_message(self, message: TrackingMessage):
         if not await self.check_message_exists(message.id, message.chat_id):
-            await self.bot.send_message(
+            if message.author_username is not None and message.author_username != GROUP_ANONYMOUS_BOT:
+                await self.bot.send_message(
                     message.chat_id,
                     f"@{message.author_username}, зачем удаляете свои сообщения?)"
                 )
@@ -92,16 +95,18 @@ class DeletedMessagesTracker:
     async def check_message_exists(self, message_id, chat_id):
         try:
             await self.bot.set_message_reaction(chat_id, message_id, None)
+
+            return True
+
         except Exception as e:
             match str(e):
                 case "Telegram server says - Bad Request: REACTION_EMPTY":
                     return True
 
                 case "Telegram server says - Bad Request: MESSAGE_ID_INVALID":
-                    print("AAAAAAAAAAAAAAAAAAAAA", chat_id, message_id)
                     return False
 
-                case "Telegram server says - Bad Request:  message to react not found":
+                case "Telegram server says - Bad Request: message to react not found":
                     return False
 
             raise e

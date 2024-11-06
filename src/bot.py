@@ -49,7 +49,7 @@ async def process_guide_command(message: Message):
     if super_reply and text_contains_only_command:
         await message.delete()
 
-    # await GuideCommandsDeletedMessagesTracker.add_tracking_message(reply_target_message)
+    await GuideCommandsDeletedMessagesTracker.add_tracking_message(reply_target_message)
 
 
 async def setup_bot_commands():
