@@ -28,7 +28,7 @@ class DeletedMessagesTracker:
     messages: list[TrackingMessage] = []
     bot: Bot
 
-    tracking_delay = 20
+    tracking_delay = 4
 
     tracking_started = False
 
@@ -48,6 +48,8 @@ class DeletedMessagesTracker:
             author_username=message.from_user.username,
             text=message.text,
         ))
+
+        logger.info(f"New message tracking from {message.from_user.username}")
 
 
     async def tracking(self):
@@ -96,6 +98,10 @@ class DeletedMessagesTracker:
                     return True
 
                 case "Telegram server says - Bad Request: MESSAGE_ID_INVALID":
+                    print("AAAAAAAAAAAAAAAAAAAAA", chat_id, message_id)
+                    return False
+
+                case "Telegram server says - Bad Request:  message to react not found":
                     return False
 
             raise e

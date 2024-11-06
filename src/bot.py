@@ -32,12 +32,13 @@ GuideCommandsDeletedMessagesTracker = DeletedMessagesTracker(bot)
 @dp.message()
 async def process_guide_command(message: Message):
     command = parse_command(message.text)
-    text_contains_only_command = message.text.strip() in [command.command, command.command + BOT_USERNAME]
-    reply_target_message = message
-    super_reply = False
 
     if not command:
         return
+
+    text_contains_only_command = message.text.strip() in [command.command, command.command + BOT_USERNAME]
+    reply_target_message = message
+    super_reply = False
 
     if message.reply_to_message:
         super_reply = True
@@ -48,7 +49,7 @@ async def process_guide_command(message: Message):
     if super_reply and text_contains_only_command:
         await message.delete()
 
-    await GuideCommandsDeletedMessagesTracker.add_tracking_message(reply_target_message)
+    # await GuideCommandsDeletedMessagesTracker.add_tracking_message(reply_target_message)
 
 
 async def setup_bot_commands():
