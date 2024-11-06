@@ -2,7 +2,7 @@ from typing import List
 
 from pydantic_settings import BaseSettings
 
-from guide_command import GuideCommand
+from commands import BaseCommand, GuideCommand
 
 import dotenv
 
@@ -11,7 +11,7 @@ dotenv.load_dotenv(override=True)
 
 class Settings(BaseSettings):
     BOT_TOKEN: str
-    COMMANDS: List[GuideCommand] = sorted([
+    COMMANDS: List[BaseCommand | GuideCommand] = sorted([
         # Agents
         GuideCommand("agents", "Агенты", "https://help.botman.pro/article/15881"),
 
@@ -83,6 +83,9 @@ class Settings(BaseSettings):
         GuideCommand("send_step", "Отправка шага группе подписчиков", "https://help.botman.pro/article/21158"),
 
 
+        # BaseCommands
+        BaseCommand("course", "Бесплатный курс по созданию авторонки", "Наш бесплатный курс по созданию своей авторонки: @BotManKurs_bot"),
+
     ], key = lambda c: c.description)
 
     class Config:
@@ -91,7 +94,7 @@ class Settings(BaseSettings):
 Settings = Settings()
 
 assert len(Settings.COMMANDS) == len(set([c.command for c in Settings.COMMANDS]))  # commands unique const
-assert len(Settings.COMMANDS) == len(set([c.doc_url for c in Settings.COMMANDS]))  # doc urls unique const
+# assert len(Settings.COMMANDS) == len(set([c.doc_url for c in Settings.COMMANDS]))  # doc urls unique const
 
 if __name__ == "__main__":
     result = ""

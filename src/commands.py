@@ -4,6 +4,28 @@ from aiogram.types import BotCommand
 COMMAND_PREFIX = "/"
 
 
+class BaseCommand:
+    def __init__(self, command: str, description: str, message: str):
+        """
+        :param command: Command, example: 'start'
+        :param description: Description of command, example: 'restart this bot'
+        :param message: Message
+        """
+        self.command = COMMAND_PREFIX + command
+        self.description = description
+        self.message = message
+
+    def __str__(self):
+        """
+        Bot message when triggers on this command
+        """
+        return self.message
+
+    def as_telegram_command(self) -> BotCommand:
+        return BotCommand(command=self.command, description=self.description)
+
+
+
 class GuideCommand:
     BASE_GUIDE_ANSWER_MESSAGE: str = "Конечно, держите наш гайд!"
 
@@ -29,13 +51,6 @@ class GuideCommand:
             + self.doc_url
             + (("\n"*2 + "Если вкратце:" + "\n" + self.guide_summary) if self.guide_summary else "")
         )
-
-    def get_info(self) -> dict:
-        return {
-            "command": self.command,
-            "doc_url": self.doc_url,
-            "guide_summary": self.guide_summary
-        }
 
     def as_telegram_command(self) -> BotCommand:
         return BotCommand(command=self.command, description=self.description)

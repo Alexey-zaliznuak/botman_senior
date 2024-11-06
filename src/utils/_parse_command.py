@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from guide_command import GuideCommand
+from commands import GuideCommand
 from settings import Settings
 
 
