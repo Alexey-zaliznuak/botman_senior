@@ -11,7 +11,15 @@ dotenv.load_dotenv(override=True)
 
 class Settings(BaseSettings):
     BOT_TOKEN: str
-    COMMANDS: List[BaseCommand | GuideCommand] = sorted([
+    COMMANDS: List[BaseCommand | GuideCommand] = \
+    [
+        # BaseCommands
+        BaseCommand("course", "Бесплатный курс по созданию авторонки", "Наш бесплатный курс по созданию своей авторонки: @BotManKurs_bot"),
+        BaseCommand(
+            "service",
+            "Заказать бота",
+            "Вы можете заказать разработку бота под-ключ: [оставить заявку](https://botman.pro/service)"),
+    ] + sorted([
         # Agents
         GuideCommand("agents", "Агенты", "https://help.botman.pro/article/15881"),
 
@@ -81,10 +89,6 @@ class Settings(BaseSettings):
 
         # Interesting solvings
         GuideCommand("send_step", "Отправка шага группе подписчиков", "https://help.botman.pro/article/21158"),
-
-
-        # BaseCommands
-        BaseCommand("course", "Бесплатный курс по созданию авторонки", "Наш бесплатный курс по созданию своей авторонки: @BotManKurs_bot"),
 
     ], key = lambda c: c.description)
 

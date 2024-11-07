@@ -2,6 +2,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher
 from aiogram.types import Message
+from aiogram.client.default import DefaultBotProperties
 
 from deleted_messages_checker import DeletedMessagesTracker
 from settings import Settings
@@ -22,7 +23,7 @@ file_handler.setLevel(logging.DEBUG)
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
-bot = Bot(token = Settings.BOT_TOKEN)
+bot = Bot(token = Settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode="Markdown"))
 dp = Dispatcher()
 
 
