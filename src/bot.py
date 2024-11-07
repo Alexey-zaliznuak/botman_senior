@@ -20,6 +20,11 @@ console_handler.setLevel(logging.DEBUG)
 file_handler = logging.FileHandler("app.log", encoding="utf-8", mode="w")
 file_handler.setLevel(logging.DEBUG)
 
+formatter = logging.Formatter('[%(asctime)s] - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+console_handler.setFormatter(formatter)
+file_handler.setFormatter(formatter)
+
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
@@ -32,6 +37,9 @@ GuideCommandsDeletedMessagesTracker = DeletedMessagesTracker(bot)
 
 @dp.message()
 async def process_guide_command(message: Message):
+    if message.text is None:
+        return
+
     command = parse_command(message.text)
 
     if not command:

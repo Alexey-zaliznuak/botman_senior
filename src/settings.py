@@ -14,7 +14,11 @@ class Settings(BaseSettings):
     COMMANDS: List[BaseCommand | GuideCommand] = \
     [
         # BaseCommands
-        BaseCommand("course", "Бесплатный курс по созданию авторонки", "Наш бесплатный курс по созданию своей авторонки: @BotManKurs_bot"),
+        # GuideCommand("course", "Бесплатный курс по созданию авторонки", "Наш бесплатный курс по созданию своей авторонки: @BotManKurs_bot"),
+        BaseCommand(
+            "course",
+            "Бесплатный курс по созданию авторонки",
+            "Наш бесплатный курс по созданию своей авторонки [здесь](https://t.me/@BotManKurs_bot)"),
         BaseCommand(
             "service",
             "Заказать бота",
