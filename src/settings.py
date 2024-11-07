@@ -64,6 +64,7 @@ class Settings(BaseSettings):
 
         # Events
         GuideCommand("marks_reaction", "События: Реагирование на добавление\удаление метки", "https://help.botman.pro/article/16452"),
+        GuideCommand("ref_url", "Запуск бота по реф. ссылке", "https://help.botman.pro/article/15436"),
 
         # Tariffs
         GuideCommand(
