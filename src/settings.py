@@ -58,11 +58,12 @@ class Settings(BaseSettings):
 
 
         # Conditions
-        GuideCommand("check_marks", "Метки: Проверка наличия метки", "https://help.botman.pro/article/18446"),
-        GuideCommand("marks_reaction", "Метки: Реагирование на добавление\удаление метки", "https://help.botman.pro/article/16452"),
+        GuideCommand("check_marks", "Условия: Проверка наличия метки", "https://help.botman.pro/article/18446"),
         GuideCommand("check_tg_subscription", "Проверка подписки на канал Telegram", "https://help.botman.pro/article/13981"),
         GuideCommand("check_vk_subscription", "Проверка подписки на группу VK", "https://help.botman.pro/article/12936"),
 
+        # Events
+        GuideCommand("marks_reaction", "События: Реагирование на добавление\удаление метки", "https://help.botman.pro/article/16452"),
 
         # Tariffs
         GuideCommand(
