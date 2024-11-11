@@ -49,7 +49,7 @@ class GuideCommand:
             f"{self.BASE_GUIDE_ANSWER_MESSAGE}"
             + "\n"
             + self.doc_url
-            + (("\n"*2 + "Если вкратце:" + "\n" + self.guide_summary) if self.guide_summary else "")
+            + (("\n"*2 + self.guide_summary) if self.guide_summary else "")
         )
 
     def as_telegram_command(self) -> BotCommand:
