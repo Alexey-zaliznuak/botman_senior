@@ -1,13 +1,13 @@
 import asyncio
 import logging
+
 from aiogram import Bot, Dispatcher
-from aiogram.types import Message
 from aiogram.client.default import DefaultBotProperties
+from aiogram.types import Message
 
 from deleted_messages_checker import DeletedMessagesTracker
 from settings import Settings
-from utils import parse_command
-
+from utils import choose_command
 
 BOT_USERNAME = "@botman_senior_bot"
 
@@ -20,7 +20,7 @@ console_handler.setLevel(logging.DEBUG)
 file_handler = logging.FileHandler("app.log", encoding="utf-8", mode="w")
 file_handler.setLevel(logging.DEBUG)
 
-formatter = logging.Formatter('[%(asctime)s] - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+formatter = logging.Formatter('[%(asctime)s] %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 console_handler.setFormatter(formatter)
 file_handler.setFormatter(formatter)
@@ -40,7 +40,7 @@ async def process_guide_command(message: Message):
     if message.text is None:
         return
 
-    command = parse_command(message.text)
+    command = choose_command(message.text)
 
     if not command:
         return
@@ -53,16 +53,16 @@ async def process_guide_command(message: Message):
         super_reply = True
         reply_target_message = message.reply_to_message
 
-    await reply_target_message.reply(str(command))
+    await reply_target_message.reply(command.get_answer(bot, message))
 
-    if super_reply and text_contains_only_command:
+    if super_reply and command.check_message_contains_only_command(bot, message):
         await message.delete()
     else:
         # No tracks message which is indirect trigger
         await GuideCommandsDeletedMessagesTracker.add_tracking_message(reply_target_message)
 
 async def setup_bot_commands():
-    commands = [c.as_telegram_command() for c in Settings.COMMANDS]
+    commands = [c.as_telegram_command for c in Settings.COMMANDS]
     await bot.set_my_commands(commands)
 
 async def main():

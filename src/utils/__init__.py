@@ -1,1 +1,1 @@
-from ._parse_command import parse_command
+from ._choose_command import choose_command

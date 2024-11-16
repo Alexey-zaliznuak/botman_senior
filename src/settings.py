@@ -1,25 +1,24 @@
 from typing import List
 
+import dotenv
 from pydantic_settings import BaseSettings
 
-from commands import BaseCommand, GuideCommand
-
-import dotenv
+from commands import BaseCommand, GuideCommand, SimpleCommand
 
 dotenv.load_dotenv(override=True)
 
 
 class Settings(BaseSettings):
     BOT_TOKEN: str
-    COMMANDS: List[BaseCommand | GuideCommand] = \
+    COMMANDS: List[BaseCommand] = \
     [
-        # BaseCommands
+        # SimpleCommands
         # GuideCommand("course", "Бесплатный курс по созданию авторонки", "Наш бесплатный курс по созданию своей авторонки: @BotManKurs_bot"),
-        BaseCommand(
+        SimpleCommand(
             "course",
             "Бесплатный курс по созданию авторонки",
             "Наш бесплатный курс по созданию своей авторонки [здесь](https://t.me/@BotManKurs_bot)"),
-        BaseCommand(
+        SimpleCommand(
             "service",
             "Заказать бота",
             "Вы можете заказать разработку бота под-ключ: [оставить заявку](https://botman.pro/service)"),
@@ -58,7 +57,7 @@ class Settings(BaseSettings):
 
 
         # Marks
-        GuideCommand("marks", "Метки: создание и настройка", "https://help.botman.pro/article/https://help.botman.pro/article/17094"),
+        GuideCommand("marks", "Метки: создание и настройка", "https://help.botman.pro/article/17094"),
 
 
         # Conditions
