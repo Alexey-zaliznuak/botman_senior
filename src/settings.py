@@ -71,6 +71,7 @@ class Settings(BaseSettings):
 
         # Events
         GuideCommand("marks_reaction", "События: Реагирование на добавление\удаление метки", "https://help.botman.pro/article/16452"),
+        GuideCommand("join_private_channel", "События: Запуск бота при вступлении в частный канал", "https://help.botman.pro/article/15437"),
         GuideCommand("ref_url", "Запуск бота по реф. ссылке", "https://help.botman.pro/article/15436"),
 
         # Tariffs
