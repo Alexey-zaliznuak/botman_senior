@@ -22,6 +22,10 @@ class Settings(BaseSettings):
             "service",
             "Заказать бота",
             "Вы можете заказать разработку бота под-ключ: [оставить заявку](https://botman.pro/service)"),
+        SimpleCommand(
+            "cancel_pro",
+            "Отказаться от про тарифа",
+            "Вы можете вернуть средства за оплаченный тариф.\n\nДля этого необходимо отправить письмо по форме пункта 7 [оферты](https://botman.pro/files/terms.pdf)."),
     ] + sorted([
         # Agents
         GuideCommand("agents", "Агенты", "https://help.botman.pro/article/15881"),
