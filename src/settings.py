@@ -94,6 +94,7 @@ class Settings(BaseSettings):
         GuideCommand("side_menu", "Боковое меню", "https://help.botman.pro/article/20473"),
         GuideCommand("menu", "Меню", "https://help.botman.pro/article/15770"),
         GuideCommand("share_phone", "Поделиться телефоном", "https://help.botman.pro/article/15580"),
+        GuideCommand("share_script", "Поделиться сценарием", "https://help.botman.pro/article/18526"),
         GuideCommand("question", "Настройка блока вопрос", "https://help.botman.pro/article/14136"),
         GuideCommand("triggers", "Настройка триггеров запуска бота", "https://help.botman.pro/article/12916"),
         GuideCommand("delay", "Настройка задержки между сообщениями", "https://help.botman.pro/article/12920"),
