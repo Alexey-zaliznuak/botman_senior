@@ -45,6 +45,7 @@ class SimpleCommand(BaseCommand):
 
 class GuideCommand(BaseCommand):
     BASE_GUIDE_ANSWER_MESSAGE: str = "Конечно, держите наш гайд!"
+    END_MESSAGE_OF_HELP_BASE: str = "Кстати у нас есть наша [база знаний](https://help.botman.pro), уверен, пригодится)"
 
     def __init__(self, command: str, description: str, doc_url: str, about: str | None = None):
         """
@@ -58,9 +59,11 @@ class GuideCommand(BaseCommand):
             command,
             description,
             (
-                f"{self.BASE_GUIDE_ANSWER_MESSAGE}"
+                self.BASE_GUIDE_ANSWER_MESSAGE
                 + "\n"
                 + doc_url
                 + (("\n"*2 + about) if about else "")
+                + "\n"*2
+                + self.END_MESSAGE_OF_HELP_BASE
             )
         )
