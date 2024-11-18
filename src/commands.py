@@ -23,7 +23,7 @@ class BaseCommand:
         return self.command in message_text
 
     def check_message_contains_only_command(self, bot: Bot, message: Message) -> bool:
-        return message.text in [self.COMMAND_PREFIX + self.command, self.COMMAND_PREFIX + self.command + bot._me.username]
+        return message.text in [self.COMMAND_PREFIX + self.command, self.COMMAND_PREFIX + self.command + "@" + bot._me.username]
 
     def get_answer(self, bot: Bot, message: Message, context: Any = {}):
         return self.answer
