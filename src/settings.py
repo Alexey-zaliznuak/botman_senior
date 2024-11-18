@@ -20,7 +20,7 @@ class Settings(BaseSettings):
             "Наш бесплатный курс по созданию своей автоворонки [здесь](https://t.me/@BotManKurs_bot)"),
         SimpleCommand(
             "service",
-            "Заказать бота",
+            "Заказать бота под ключ",
             "Вы можете заказать разработку бота под-ключ: @BotManForCreate_bot"),
         SimpleCommand(
             "cancel_pro",
