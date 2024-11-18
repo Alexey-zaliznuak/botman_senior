@@ -45,7 +45,6 @@ async def process_guide_command(message: Message):
     if not command:
         return
 
-    text_contains_only_command = message.text.strip() in [command.command, command.command + BOT_USERNAME]
     reply_target_message = message
     super_reply = False
 
@@ -55,6 +54,7 @@ async def process_guide_command(message: Message):
 
     await reply_target_message.reply(command.get_answer(bot, message))
 
+    logger.info(f"Command maked by {message.from_user.username}, bot answer on message of {reply_target_message.from_user.username}")
     if super_reply and command.check_message_contains_only_command(bot, message):
         await message.delete()
     else:
