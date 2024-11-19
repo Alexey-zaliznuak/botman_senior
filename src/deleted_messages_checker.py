@@ -68,7 +68,8 @@ class DeletedMessagesTracker:
             if message.author_username is not None and message.author_username != GROUP_ANONYMOUS_BOT:
                 await self.bot.send_message(
                     message.chat_id,
-                    f"@{message.author_username}, зачем удаляете свои сообщения?)"
+                    f"@{message.author_username}, зачем удаляете свои сообщения?)",
+                    parse_mode=None,
                 )
             self.messages.remove(message)
 
