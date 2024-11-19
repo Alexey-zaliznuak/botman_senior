@@ -21,7 +21,7 @@ class Settings(BaseSettings):
         SimpleCommand(
             "service",
             "Заказать бота под ключ",
-            "Вы можете заказать разработку бота под-ключ по [ссылке](https://t.me/BotManForCreate_bot)"),
+            "Вы можете заказать разработку бота под-ключ написав [сюда](https://t.me/BotManForCreate_bot)"),
         SimpleCommand(
             "cancel_pro",
             "Отказаться от про тарифа",
