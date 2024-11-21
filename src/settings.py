@@ -98,6 +98,7 @@ class Settings(BaseSettings):
         GuideCommand("question", "Настройка блока вопрос", "https://help.botman.pro/article/14136"),
         GuideCommand("triggers", "Настройка триггеров запуска бота", "https://help.botman.pro/article/12916"),
         GuideCommand("delay", "Настройка задержки между сообщениями", "https://help.botman.pro/article/12920"),
+        GuideCommand("buttons", "Настройка кнопок в сообщениях", "https://help.botman.pro/article/12921"),
         GuideCommand("video", "Настройка отправки видео и видео кружков", "https://help.botman.pro/article/12922"),
 
         # Interesting solvings
