@@ -1,15 +1,16 @@
 import asyncio
 import logging
+from time import time
 
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
-from aiogram.types import Message
+from aiogram.filters import Command
+from aiogram.types import Message, ChatPermissions
 
-from deleted_messages_checker import DeletedMessagesTracker
+from deleted_messages_checker import GROUP_ANONYMOUS_BOT, DeletedMessagesTracker
 from settings import Settings
-from utils import choose_command
+from utils import choose_command, parse_time, beauti_time_arg, emojis
 
-BOT_USERNAME = "@botman_senior_bot"
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -28,15 +29,65 @@ file_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
+
 bot = Bot(token = Settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode="Markdown"))
 dp = Dispatcher()
 
+DeletedMessagesTracker = DeletedMessagesTracker(bot)
 
-GuideCommandsDeletedMessagesTracker = DeletedMessagesTracker(bot)
+
+@dp.message(Command("mute"))
+async def mute_handler(message: Message):
+    if message.from_user.id not in Settings.ADMINS:
+        await message.reply(emojis.thinking)
+        DeletedMessagesTracker.add_tracking_message(message)
+
+    if not message.reply_to_message:
+        await message.reply("Не понимаю, кого мутить(")
+        return
+
+
+    args = message.text.split()[1:]
+
+    if len(args) == 0:
+        await message.reply("Нет параметра на сколько мутить")
+        return
+
+    time_arg = args[0]
+
+    try:
+        mute_duration = parse_time(time_arg)
+
+    except ValueError as e:
+        logger.error("Error when trying to mute: " + str(e))
+        await message.reply("Не понимаю на сколько времени мутить")
+        return
+
+    until_date = int(time()) + mute_duration
+    target_user_id = message.reply_to_message.from_user.id
+
+    try:
+        await bot.restrict_chat_member(
+            chat_id=message.chat.id,
+            user_id=target_user_id,
+            permissions=ChatPermissions(
+                can_send_messages=False,
+                can_send_media_messages=False,
+                can_send_other_messages=False,
+                can_add_web_page_previews=False
+            ),
+            until_date=str(until_date)
+        )
+        await message.reply(
+            f"Пользователь {message.reply_to_message.from_user.full_name} теперь отдыхает {beauti_time_arg(time_arg)}.")
+
+    except Exception as e:
+        logger.error("Error when trying to mute: " + str(e))
+        await message.reply(f"Что то пошло не так(")
 
 
 @dp.message()
-async def process_guide_command(message: Message):
+async def support_commands_handler(message: Message):
     if message.text is None:
         return
 
@@ -59,7 +110,8 @@ async def process_guide_command(message: Message):
         await message.delete()
     else:
         # No tracks message which is indirect trigger
-        await GuideCommandsDeletedMessagesTracker.add_tracking_message(reply_target_message)
+        await DeletedMessagesTracker.add_tracking_message(reply_target_message)
+
 
 async def setup_bot_commands():
     commands = [c.as_telegram_command for c in Settings.COMMANDS]

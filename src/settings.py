@@ -10,6 +10,7 @@ dotenv.load_dotenv(override=True)
 
 class Settings(BaseSettings):
     BOT_TOKEN: str
+    ADMINS: list = [1087968824]
     COMMANDS: List[BaseCommand] = \
     [
         # SimpleCommands

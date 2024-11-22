@@ -1,0 +1,2 @@
+class emojis:
+    thinking = "🤨"
