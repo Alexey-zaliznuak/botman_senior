@@ -13,8 +13,6 @@ class Settings(BaseSettings):
     ADMINS: list = [1087968824]
     COMMANDS: List[BaseCommand] = \
     [
-        # SimpleCommands
-        # GuideCommand("course", "Бесплатный курс по созданию авторонки", "Наш бесплатный курс по созданию своей авторонки: @BotManKurs_bot"),
         SimpleCommand(
             "course",
             "Бесплатный курс по созданию автоворонки",

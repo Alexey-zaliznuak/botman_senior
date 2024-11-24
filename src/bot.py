@@ -96,6 +96,10 @@ async def support_commands_handler(message: Message):
     if not command:
         return
 
+    if message.from_user.id not in Settings.ADMINS:
+        await message.delete()
+        return
+
     reply_target_message = message
     super_reply = False
 
