@@ -1,15 +1,16 @@
 import asyncio
 import logging
 from time import time
+from typing import Any
 
-from aiogram import Bot, Dispatcher
+from aiogram import F, Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import Command
-from aiogram.types import Message, ChatPermissions
+from aiogram.types import Message
 
-from deleted_messages_checker import GROUP_ANONYMOUS_BOT, DeletedMessagesTracker
+from deleted_messages_checker import DeletedMessagesTracker
 from settings import Settings
-from utils import choose_command, parse_time, beauti_time_arg, emojis
+from utils import choose_command, parse_time, beauti_time_arg, emojis, mute, mute_forever
 
 
 logger = logging.getLogger()
@@ -43,14 +44,13 @@ async def mute_handler(message: Message):
         DeletedMessagesTracker.add_tracking_message(message)
 
     if not message.reply_to_message:
-        await message.reply("Не понимаю, кого мутить(")
+        await message.reply("Выбери сообщение для передачи")
         return
-
 
     args = message.text.split()[1:]
 
     if len(args) == 0:
-        await message.reply("Нет параметра на сколько мутить")
+        await message.reply("Нет параметра")
         return
 
     time_arg = args[0]
@@ -67,27 +67,23 @@ async def mute_handler(message: Message):
     target_user_id = message.reply_to_message.from_user.id
 
     try:
-        await bot.restrict_chat_member(
-            chat_id=message.chat.id,
-            user_id=target_user_id,
-            permissions=ChatPermissions(
-                can_send_messages=False,
-                can_send_media_messages=False,
-                can_send_other_messages=False,
-                can_add_web_page_previews=False
-            ),
-            until_date=str(until_date)
-        )
+        await mute(bot, message, target_user_id, until_date)
         await message.reply(
-            f"Пользователь {message.reply_to_message.from_user.full_name} теперь отдыхает {beauti_time_arg(time_arg)}.")
+            f"Пользователь {message.reply_to_message.from_user.full_name} теперь отдыхает {beauti_time_arg(time_arg)}."
+        )
 
     except Exception as e:
         logger.error("Error when trying to mute: " + str(e))
         await message.reply(f"Что то пошло не так(")
 
 
+@dp.message(lambda message: message.text.lower() in Settings.STOP_KEYWORDS)
+async def check_stop_words(message: Message, ):
+    logger.info(f"Remove message from {message.from_user.username}, text: {message.text}")
+    await message.delete()
+
 @dp.message()
-async def support_commands_handler(message: Message):
+async def support_commands_handler(message: Message) -> bool | Any:
     if message.text is None:
         return
 
