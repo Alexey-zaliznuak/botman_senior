@@ -77,7 +77,7 @@ async def mute_handler(message: Message):
         await message.reply(f"Что то пошло не так(")
 
 
-@dp.message(lambda message: message.text.lower() in Settings.STOP_KEYWORDS)
+@dp.message(lambda message: any([kw in message.text for kw in Settings.STOP_KEYWORDS]))
 async def check_stop_words(message: Message, ):
     logger.info(f"Remove message from {message.from_user.username}, text: {message.text}")
     await message.delete()
@@ -111,7 +111,6 @@ async def support_commands_handler(message: Message) -> bool | Any:
     else:
         # No tracks message which is indirect trigger
         await DeletedMessagesTracker.add_tracking_message(reply_target_message)
-
 
 async def setup_bot_commands():
     commands = [c.as_telegram_command for c in Settings.COMMANDS]
