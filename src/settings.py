@@ -11,7 +11,7 @@ dotenv.load_dotenv(override=True)
 class Settings(BaseSettings):
     BOT_TOKEN: str
     ADMINS: list = [1087968824]
-    STOP_KEYWORDS: List[str] = ["доход от", "без опыта и вложений"]
+    STOP_KEYWORDS: List[str] = ["доход от", "без опыта и вложений", "пиши в лс", "пишите в лс", "жду в лс"]
     COMMANDS: List[BaseCommand] = \
     [
         SimpleCommand(
