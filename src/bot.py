@@ -42,6 +42,7 @@ async def mute_handler(message: Message):
     if message.from_user.id not in Settings.ADMINS:
         await message.reply(emojis.thinking)
         DeletedMessagesTracker.add_tracking_message(message)
+        return
 
     if not message.reply_to_message:
         await message.reply("Выбери сообщение для передачи")
@@ -81,6 +82,7 @@ async def mute_handler(message: Message):
 async def ban_handler(message: Message):
     if message.from_user.id not in Settings.ADMINS:
         await message.delete()
+        return
 
     args = message.text.split()[1:]
 
