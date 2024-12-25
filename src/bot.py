@@ -93,7 +93,7 @@ async def ban_handler(message: Message):
         logger.error("Error when trying to mute: " + str(e))
         return
 
-    await message.delete
+    await message.delete()
 
 
 @dp.message(lambda message: message.text and any([kw in message.text.lower() for kw in Settings.STOP_KEYWORDS]))
