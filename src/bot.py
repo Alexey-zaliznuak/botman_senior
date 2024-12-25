@@ -88,7 +88,7 @@ async def ban_handler(message: Message):
 
     try:
         await bot.ban_chat_member(message.chat.id, user_id)
-        logger.error("ESuccess bun: " + str(user_id))
+        logger.error("Success bun: " + str(user_id))
 
     except ValueError as e:
         logger.error("Error when trying to mute: " + str(e))
