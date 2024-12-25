@@ -12,10 +12,19 @@ class Settings(BaseSettings):
     BOT_TOKEN: str
     ADMINS: list = [1087968824]
     STOP_KEYWORDS: List[str] = [
+        "достойных доход",
         "доход от",
         "без опыта и вложений",
         "пиши в лс",
         "пишите в лс",
+        "писать в лс",
+        "только для совершеннолетних",
+        "нужны ответственные люди",
+        "можно совмещать с основной работой",
+        "легально 14+",
+        "легально 16+",
+        "легально 18+",
+        "легально 20+",
         "жду в лс",
     ]
     COMMANDS: List[BaseCommand] = \
@@ -121,9 +130,16 @@ assert len(Settings.COMMANDS) == len(set([c.command for c in Settings.COMMANDS])
 # assert len(Settings.COMMANDS) == len(set([c.doc_url for c in Settings.COMMANDS]))  # doc urls unique const
 
 if __name__ == "__main__":
-    result = ""
-    for command in Settings.COMMANDS:
-        result += command.command[1:] + " - " + command.description + "\n"
+    # result = ""
+    # for command in Settings.COMMANDS:
+    #     result += command.command[1:] + " - " + command.description + "\n"
 
-    print(result)
-    print("TOTAL:", len(Settings.COMMANDS))
+    # print(result)
+    # print("TOTAL:", len(Settings.COMMANDS))
+
+    assert len(Settings.STOP_KEYWORDS) == len(set(Settings.STOP_KEYWORDS))
+
+    for kw in Settings.STOP_KEYWORDS:
+        assert kw == kw.lower()
+
+    print(*Settings.STOP_KEYWORDS, sep="\n")
