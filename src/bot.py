@@ -77,10 +77,36 @@ async def mute_handler(message: Message):
         await message.reply(f"Что то пошло не так(")
 
 
+@dp.message(Command("ban"))
+async def ban_handler(message: Message):
+    if message.from_user.id not in Settings.ADMINS:
+        await message.delete()
+
+    args = message.text.split()[1:]
+
+    user_id = args[0]
+
+    try:
+        await bot.ban_chat_member(message.chat.id, user_id)
+
+    except ValueError as e:
+        logger.error("Error when trying to mute: " + str(e))
+        return
+
+    await message.delete
+
+
 @dp.message(lambda message: message.text and any([kw in message.text.lower() for kw in Settings.STOP_KEYWORDS]))
 async def check_stop_words(message: Message, ):
-    logger.info(f"Remove message from {message.from_user.username}, text: {message.text}")
+    logger.info(f"Remove message from {message.from_user.username}, id: {message.from_user.id}, text: {message.text}")
+    await bot.send_message(Settings.SUPPORT_CHAT_ID, f"Подозрительное сообщение, напишите <code>/ban {message.from_user.id}</code> в чате взаимопомощи", parse_mode="html")
+    await bot.forward_message(Settings.SUPPORT_CHAT_ID, message.chat.id, message.message_id)
     await message.delete()
+
+@dp.message(Command("get_chat_id"))
+async def get_chat_id(message: Message):
+    chat = await bot.get_chat(message.chat.id)
+    await message.answer(f"Новый ID чата: {chat.id}")
 
 @dp.message()
 async def support_commands_handler(message: Message) -> bool | Any:

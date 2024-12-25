@@ -11,6 +11,10 @@ dotenv.load_dotenv(override=True)
 class Settings(BaseSettings):
     BOT_TOKEN: str
     ADMINS: list = [1087968824]
+
+    SUPPORT_CHAT_ID: str = "-1002383872514"
+    # BOT_MAN_CHAT_ID: str = ""
+
     STOP_KEYWORDS: List[str] = [
         "достойных доход",
         "доход от",
