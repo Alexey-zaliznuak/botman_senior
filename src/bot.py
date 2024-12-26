@@ -10,7 +10,8 @@ from aiogram.types import Message
 
 from deleted_messages_checker import DeletedMessagesTracker
 from settings import Settings
-from utils import choose_command, parse_time, beauti_time_arg, emojis, mute, mute_forever
+from utils import choose_command, parse_time, beauti_time_arg, emojis, mute
+from normalize import normalize_string
 
 
 logger = logging.getLogger()
@@ -91,6 +92,7 @@ async def ban_handler(message: Message):
     try:
         await bot.ban_chat_member(message.chat.id, user_id)
         logger.error("Success bun: " + str(user_id))
+        await bot.send_message(Settings.SUPPORT_CHAT_ID, f"Пользователь с id {user_id} заблочен", parse_mode="html")
 
     except ValueError as e:
         logger.error("Error when trying to mute: " + str(e))
@@ -99,8 +101,14 @@ async def ban_handler(message: Message):
     await message.delete()
 
 
-@dp.message(lambda message: message.text and any([kw in message.text.lower() for kw in Settings.STOP_KEYWORDS]))
-async def check_stop_words(message: Message, ):
+@dp.message(
+    lambda message: (
+        message.chat.id != int(Settings.SUPPORT_CHAT_ID)
+        and message.text
+        and any([kw in normalize_string(message.text) for kw in Settings.STOP_KEYWORDS])
+    )
+)
+async def check_stop_words(message: Message):
     logger.info(f"Remove message from {message.from_user.username}, id: {message.from_user.id}, text: {message.text}")
     await bot.send_message(Settings.SUPPORT_CHAT_ID, f"Подозрительное сообщение, напишите <code>/ban {message.from_user.id}</code> в чате взаимопомощи", parse_mode="html")
     await bot.forward_message(Settings.SUPPORT_CHAT_ID, message.chat.id, message.message_id)

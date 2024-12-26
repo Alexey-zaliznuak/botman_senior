@@ -4,6 +4,7 @@ import dotenv
 from pydantic_settings import BaseSettings
 
 from commands import BaseCommand, GuideCommand, SimpleCommand
+from normalize import bulk_normalize
 
 dotenv.load_dotenv(override=True)
 
@@ -13,26 +14,33 @@ class Settings(BaseSettings):
     ADMINS: list = [1087968824]
 
     SUPPORT_CHAT_ID: str = "-1002383872514"
-    # BOT_MAN_CHAT_ID: str = ""
+    BOT_MAN_CHAT_ID: str = "-1001972329620"
 
-    STOP_KEYWORDS: List[str] = [
+    STOP_KEYWORDS: List[str] = bulk_normalize([
         "достойных доход",
         "доход от",
+        "все законно",
         "баксов в день",
         "без опыта и вложений",
+        "ищем сотрудников",
+        "с заработком от",
+        "заработок от",
+        "научу поднимать",
+        "жду в личке",
+        "жду в лс",
         "пиши в лс",
         "пишите в лс",
         "писать в лс",
         "только для совершеннолетних",
         "нужны ответственные люди",
-        "нужны люди для удалённого заработка",
+        "для удалённого заработка",
+        "для удалённой работы",
         "можно совмещать с основной работой",
         "легально 14+",
         "легально 16+",
         "легально 18+",
         "легально 20+",
-        "жду в лс",
-    ]
+    ])
     COMMANDS: List[BaseCommand] = \
     [
         SimpleCommand(
@@ -145,7 +153,28 @@ if __name__ == "__main__":
 
     assert len(Settings.STOP_KEYWORDS) == len(set(Settings.STOP_KEYWORDS))
 
-    for kw in Settings.STOP_KEYWORDS:
-        assert kw == kw.lower()
-
-    print(*Settings.STOP_KEYWORDS, sep="\n")
+    print(*[
+        "достойных доход",
+        "доход от",
+        "все законно",
+        "баксов в день",
+        "без опыта и вложений",
+        "ищем сотрудников",
+        "с заработком от",
+        "заработок от",
+        "научу поднимать",
+        "жду в личке",
+        "жду в лс",
+        "пиши в лс",
+        "пишите в лс",
+        "писать в лс",
+        "только для совершеннолетних",
+        "нужны ответственные люди",
+        "для удалённого заработка",
+        "для удалённой работы",
+        "можно совмещать с основной работой",
+        "легально 14+",
+        "легально 16+",
+        "легально 18+",
+        "легально 20+",
+    ], sep="\n\n")
