@@ -121,16 +121,16 @@ async def get_chat_id(message: Message):
 
 @dp.message()
 async def support_commands_handler(message: Message) -> bool | Any:
+    if message.from_user.id not in Settings.ADMINS and message.chat.id != int(Settings.SUPPORT_CHAT_ID):
+        await message.delete()
+        return
+
     if message.text is None:
         return
 
     command = choose_command(message.text)
 
     if not command:
-        return
-
-    if message.from_user.id not in Settings.ADMINS:
-        await message.delete()
         return
 
     reply_target_message = message
