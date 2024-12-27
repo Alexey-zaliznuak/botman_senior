@@ -2,11 +2,13 @@ from normalize.settings import NORMALIZE_KEYWORD
 
 
 def normalize_string(t: str) -> str:
+    print("BEFORE", t)
     t = ''.join(t.lower().split())
 
     for base_symbol, norm_symbol in NORMALIZE_KEYWORD.items():
         t = t.replace(base_symbol, norm_symbol)
 
+    print("AFTER", t)
     return t
 
 def bulk_normalize(data: list[str]) -> list[str]:

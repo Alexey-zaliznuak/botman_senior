@@ -1,16 +1,15 @@
 import asyncio
 import logging
 from time import time
-from typing import Any
 
-from aiogram import F, Bot, Dispatcher
+from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import Command
 from aiogram.types import Message
 
 from deleted_messages_checker import DeletedMessagesTracker
 from settings import Settings
-from utils import choose_command, parse_time, beauti_time_arg, emojis, mute
+from utils import parse_time, beauti_time_arg, emojis, mute
 from normalize import normalize_string
 
 
@@ -92,7 +91,7 @@ async def ban_handler(message: Message):
     try:
         await bot.ban_chat_member(message.chat.id, user_id)
         logger.error("Success bun: " + str(user_id))
-        await bot.send_message(Settings.SUPPORT_CHAT_ID, f"<bold> Пользователь с id {user_id} заблочен </bold>", parse_mode="html")
+        await bot.send_message(Settings.SUPPORT_CHAT_ID, f"Пользователь с id {user_id} заблочен", parse_mode="html")
 
     except ValueError as e:
         logger.error("Error when trying to mute: " + str(e))
@@ -119,35 +118,35 @@ async def get_chat_id(message: Message):
     chat = await bot.get_chat(message.chat.id)
     await message.answer(f"Новый ID чата: {chat.id}")
 
-@dp.message()
-async def support_commands_handler(message: Message) -> bool | Any:
-    if message.from_user.id not in Settings.ADMINS and message.chat.id != int(Settings.SUPPORT_CHAT_ID):
-        await message.delete()
-        return
+# @dp.message()
+# async def support_commands_handler(message: Message) -> bool | Any:
+#     if message.from_user.id not in Settings.ADMINS and message.chat.id != int(Settings.SUPPORT_CHAT_ID):
+#         await message.delete()
+#         return
 
-    if message.text is None:
-        return
+#     if message.text is None:
+#         return
 
-    command = choose_command(message.text)
+#     command = choose_command(message.text)
 
-    if not command:
-        return
+#     if not command:
+#         return
 
-    reply_target_message = message
-    super_reply = False
+#     reply_target_message = message
+#     super_reply = False
 
-    if message.reply_to_message:
-        super_reply = True
-        reply_target_message = message.reply_to_message
+#     if message.reply_to_message:
+#         super_reply = True
+#         reply_target_message = message.reply_to_message
 
-    await reply_target_message.reply(command.get_answer(bot, message))
+#     await reply_target_message.reply(command.get_answer(bot, message))
 
-    logger.info(f"Command made by {message.from_user.username}, bot answer on message of {reply_target_message.from_user.username}")
-    if super_reply and command.check_message_contains_only_command(bot, message):
-        await message.delete()
-    else:
-        # No tracks message which is indirect trigger
-        await DeletedMessagesTracker.add_tracking_message(reply_target_message)
+#     logger.info(f"Command made by {message.from_user.username}, bot answer on message of {reply_target_message.from_user.username}")
+#     if super_reply and command.check_message_contains_only_command(bot, message):
+#         await message.delete()
+#     else:
+#         # No tracks message which is indirect trigger
+#         await DeletedMessagesTracker.add_tracking_message(reply_target_message)
 
 async def setup_bot_commands():
     commands = [c.as_telegram_command for c in Settings.COMMANDS]
