@@ -92,7 +92,7 @@ async def ban_handler(message: Message):
     try:
         await bot.ban_chat_member(message.chat.id, user_id)
         logger.error("Success bun: " + str(user_id))
-        await bot.send_message(Settings.SUPPORT_CHAT_ID, f"Пользователь с id {user_id} заблочен", parse_mode="html")
+        await bot.send_message(Settings.SUPPORT_CHAT_ID, f"<bold> Пользователь с id {user_id} заблочен </bold>", parse_mode="html")
 
     except ValueError as e:
         logger.error("Error when trying to mute: " + str(e))
