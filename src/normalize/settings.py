@@ -58,12 +58,13 @@ NORMALIZE_KEYWORD: dict[str, str] = {
     "y": "ы",
     "z": "з",
 
+    # numerics
+    "0": "о",
 
     # others
     "ё": "е",
     "а": "о",
     "у": "и",
-
 
     # ЛС
     "личк": "лс",
