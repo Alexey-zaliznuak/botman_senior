@@ -119,7 +119,7 @@ async def get_chat_id(message: Message):
     await message.answer(f"Новый ID чата: {chat.id}")
 
 @dp.message()
-async def support_commands_handler(message: Message) -> bool | Any:
+async def support_commands_handler(message: Message) -> bool:
     if message.from_user.id not in Settings.ADMINS and message.chat.id != int(Settings.SUPPORT_CHAT_ID):
         await message.delete()
         return
