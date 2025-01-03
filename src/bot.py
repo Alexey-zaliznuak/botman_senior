@@ -120,10 +120,6 @@ async def get_chat_id(message: Message):
 
 @dp.message()
 async def support_commands_handler(message: Message) -> bool:
-    if message.from_user.id not in Settings.ADMINS and message.chat.id != int(Settings.SUPPORT_CHAT_ID):
-        await message.delete()
-        return
-
     if message.text is None:
         return
 
