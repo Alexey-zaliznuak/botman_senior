@@ -113,7 +113,7 @@ async def check_stop_words(message: Message):
 
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
-            [InlineKeyboardButton(text="Расстрелять", callback_data=f"ban_{message.from_user.id}_{message.chat.id}")]
+            [InlineKeyboardButton(text="Бан", callback_data=f"ban_{message.from_user.id}_{message.chat.id}")]
         ]
     )
 
