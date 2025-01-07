@@ -4,8 +4,8 @@ import dotenv
 from pydantic_settings import BaseSettings
 
 from commands import BaseCommand, GuideCommand, SimpleCommand
-from normalize import bulk_normalize
-from normalize.settings import STOP_KEYWORDS
+from normalize import bulk_normalize, normalize_string
+from normalize.settings import NORMALIZE_KEYWORD, STOP_KEYWORDS
 
 dotenv.load_dotenv(override=True)
 
@@ -115,15 +115,15 @@ class Settings(BaseSettings):
 
 Settings = Settings()
 
+
+
+
+
 assert len(Settings.COMMANDS) == len(set([c.command for c in Settings.COMMANDS]))  # commands unique const
-# assert len(Settings.COMMANDS) == len(set([c.doc_url for c in Settings.COMMANDS]))  # doc urls unique const
 
-if __name__ == "__main__":
-    # result = ""
-    # for command in Settings.COMMANDS:
-    #     result += command.command[1:] + " - " + command.description + "\n"
+for el in Settings.STOP_KEYWORDS:
+    if Settings.STOP_KEYWORDS.count(el) != 1:
+        print(el, Settings.STOP_KEYWORDS.count(el))
 
-    # print(result)
-    # print("TOTAL:", len(Settings.COMMANDS))
-
-    assert len(Settings.STOP_KEYWORDS) == len(set(Settings.STOP_KEYWORDS))
+assert len(Settings.STOP_KEYWORDS) == len(set(Settings.STOP_KEYWORDS))
+assert len(NORMALIZE_KEYWORD) == len(set(NORMALIZE_KEYWORD))
