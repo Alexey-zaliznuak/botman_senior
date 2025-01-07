@@ -2,10 +2,11 @@ import asyncio
 import logging
 from time import time
 
-from aiogram import Bot, Dispatcher
+from aiogram import F, Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from deleted_messages_checker import DeletedMessagesTracker
 from settings import Settings
@@ -41,7 +42,7 @@ DeletedMessagesTracker = DeletedMessagesTracker(bot)
 async def mute_handler(message: Message):
     if message.from_user.id not in Settings.ADMINS:
         await message.reply(emojis.thinking)
-        DeletedMessagesTracker.add_tracking_message(message)
+        # DeletedMessagesTracker.add_tracking_message(message)
         return
 
     if not message.reply_to_message:
@@ -109,14 +110,46 @@ async def ban_handler(message: Message):
 )
 async def check_stop_words(message: Message):
     logger.info(f"Remove message from {message.from_user.username}, id: {message.from_user.id}, text: {message.text}")
-    await bot.send_message(Settings.SUPPORT_CHAT_ID, f"Подозрительное сообщение, напишите <code>/ban {message.from_user.id}</code> в чате взаимопомощи", parse_mode="html")
+
+    keyboard = InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text="Расстрелять", callback_data=f"ban_{message.from_user.id}_{message.chat.id}")]
+        ]
+    )
+
     await bot.forward_message(Settings.SUPPORT_CHAT_ID, message.chat.id, message.message_id)
+
     await message.delete()
+
+    await bot.send_message(
+        Settings.SUPPORT_CHAT_ID,
+        f"Подозрительное сообщение",
+        reply_markup=keyboard,
+        parse_mode="html",
+    )
+
+
+@dp.callback_query(lambda callback_query: "ban_" in callback_query.data)
+async def handle_ban_callback(callback_query: CallbackQuery):
+    _, user_id, chat_id = callback_query.data.split("_")
+
+    await bot.answer_callback_query(callback_query.id)
+
+    try:
+        await bot.ban_chat_member(chat_id, user_id)
+        logger.error("Success bun by button callback: " + str(user_id))
+        await bot.send_message(Settings.SUPPORT_CHAT_ID, f"Пользователь с id {user_id} заблочен", parse_mode="html")
+
+    except ValueError as e:
+        logger.error("Error when trying to mute: " + str(e))
+        return
+
 
 @dp.message(Command("get_chat_id"))
 async def get_chat_id(message: Message):
     chat = await bot.get_chat(message.chat.id)
     await message.answer(f"Новый ID чата: {chat.id}")
+
 
 @dp.message()
 async def support_commands_handler(message: Message) -> bool:
