@@ -37,7 +37,6 @@ dp = Dispatcher()
 
 DeletedMessagesTracker = DeletedMessagesTracker(bot)
 
-
 @dp.message(Command("mute"))
 async def mute_handler(message: Message):
     if message.from_user.id not in Settings.ADMINS:
@@ -102,13 +101,18 @@ async def ban_handler(message: Message):
 
 
 @dp.message(
-    lambda message: (
+    lambda message: bool(
         message.chat.id != int(Settings.SUPPORT_CHAT_ID)
-        and message.text
-        and any([kw in normalize_string(message.text) for kw in Settings.STOP_KEYWORDS])
+        and (
+            message.forward_date
+            or (
+                message.text
+                and any([kw in normalize_string(message.text) for kw in Settings.STOP_KEYWORDS])
+            )
+        )
     )
 )
-async def check_stop_words(message: Message):
+async def check_not_illegal(message: Message):
     logger.info(f"Remove message from {message.from_user.username}, id: {message.from_user.id}, text: {message.text}")
 
     keyboard = InlineKeyboardMarkup(
