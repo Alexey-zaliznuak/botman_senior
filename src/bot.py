@@ -1,5 +1,7 @@
 import asyncio
 import logging
+import emoji
+
 from time import time
 
 from aiogram import F, Bot, Dispatcher
@@ -10,7 +12,7 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from deleted_messages_checker import DeletedMessagesTracker
 from settings import Settings
-from utils import parse_time, beauti_time_arg, emojis, mute, choose_command
+from utils import parse_time, beauti_time_arg, emojis_count, choose_command
 from normalize import normalize_string
 
 
@@ -105,6 +107,7 @@ async def ban_handler(message: Message):
         message.chat.id != int(Settings.SUPPORT_CHAT_ID)
         and (
             message.forward_date
+            or emojis_count(message.text) >= 7
             or (
                 message.text
                 and any([kw in normalize_string(message.text) for kw in Settings.STOP_KEYWORDS])
@@ -112,7 +115,7 @@ async def ban_handler(message: Message):
         )
     )
 )
-async def check_not_illegal(message: Message):
+async def validate_illegal(message: Message):
     logger.info(f"Remove message from {message.from_user.username}, id: {message.from_user.id}, text: {message.text}")
 
     keyboard = InlineKeyboardMarkup(
