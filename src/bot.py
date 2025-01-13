@@ -131,7 +131,7 @@ async def validate_illegal(message: Message):
     await bot.send_message(
         Settings.SUPPORT_CHAT_ID,
         f"Подозрительное сообщение",
-        reply_markup=keyboard,
+        reply_markup=keyboard if message.from_user.username != "GroupAnonymousBot" else None,
         parse_mode="html",
     )
 
