@@ -107,7 +107,7 @@ async def ban_handler(message: Message):
         message.chat.id != int(Settings.SUPPORT_CHAT_ID)
         and (
             message.forward_date
-            or emojis_count(message.text) >= 7
+            or (message.text and emojis_count(message.text) >= 7)
             or (
                 message.text
                 and any([kw in normalize_string(message.text) for kw in Settings.STOP_KEYWORDS])
