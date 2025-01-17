@@ -12,8 +12,11 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from deleted_messages_checker import DeletedMessagesTracker
 from settings import Settings
-from utils import parse_time, beauti_time_arg, emojis_count, choose_command
+from utils import parse_time, beauti_time_arg, emojis_count, choose_command, mute
 from normalize import normalize_string
+
+
+SYSTEM_TELEGRAM_ID = "777000"
 
 
 logger = logging.getLogger()
@@ -42,7 +45,7 @@ DeletedMessagesTracker = DeletedMessagesTracker(bot)
 @dp.message(Command("mute"))
 async def mute_handler(message: Message):
     if message.from_user.id not in Settings.ADMINS:
-        await message.reply(emojis.thinking)
+        await message.reply(emoji.thinking)
         # DeletedMessagesTracker.add_tracking_message(message)
         return
 
@@ -105,6 +108,11 @@ async def ban_handler(message: Message):
 @dp.message(
     lambda message: bool(
         message.chat.id != int(Settings.SUPPORT_CHAT_ID)
+
+        and str(message.from_user.id) != SYSTEM_TELEGRAM_ID
+
+        and message.from_user.username != "GroupAnonymousBot"
+
         and (
             message.forward_date
             or (message.text and emojis_count(message.text) >= 7)
