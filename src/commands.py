@@ -55,6 +55,8 @@ class GuideCommand(BaseCommand):
         :param about: Short description.
         """
 
+        self.doc_url = doc_url
+
         super().__init__(
             command,
             description,

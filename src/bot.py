@@ -113,6 +113,8 @@ async def ban_handler(message: Message):
 
         and message.from_user.username != "GroupAnonymousBot"
 
+        and message.from_user.username not in ["Milov34", "nipi_bz", "chernyshev_roman"]
+
         and (
             message.forward_date
             or (message.text and emojis_count(message.text) >= 7)

@@ -31,7 +31,7 @@ class Settings(BaseSettings):
         SimpleCommand(
             "cancel_pro",
             "Отказаться от про тарифа",
-            "Вы можете вернуть средства за оплаченный тариф.\n\nДля этого необходимо отправить письмо по форме пункта 7 [оферты](https://botman.pro/files/terms.pdf)."),
+            "Контакты техподдержки для сложных запросов. @BotManSupport_bot"),
     ] + sorted([
         # Agents
         GuideCommand("agents", "Агенты", "https://help.botman.pro/article/15881"),
@@ -117,8 +117,6 @@ Settings = Settings()
 
 
 
-
-
 assert len(Settings.COMMANDS) == len(set([c.command for c in Settings.COMMANDS]))  # commands unique const
 
 for el in Settings.STOP_KEYWORDS:
@@ -127,3 +125,12 @@ for el in Settings.STOP_KEYWORDS:
 
 assert len(Settings.STOP_KEYWORDS) == len(set(Settings.STOP_KEYWORDS))
 assert len(NORMALIZE_KEYWORD) == len(set(NORMALIZE_KEYWORD))
+
+
+# for c in Settings.COMMANDS:
+#     try:
+#         print(c.command + " - " + c.description + " - " + c.doc_url)
+#     except:
+#         print(c.command + " - " + c.description + " - " + c.answer)
+
+#     print()
