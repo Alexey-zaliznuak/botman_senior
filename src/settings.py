@@ -31,7 +31,7 @@ class Settings(BaseSettings):
         SimpleCommand(
             "cancel_pro",
             "Отказаться от про тарифа",
-            "Контакты техподдержки для сложных запросов. @BotManSupport_bot"),
+            "Контакты техподдержки для сложных запросов по [ссылке](https://t.me/BotManSupport_bot)"),
     ] + sorted([
         # Agents
         GuideCommand("agents", "Агенты", "https://help.botman.pro/article/15881"),
