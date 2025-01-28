@@ -74,9 +74,10 @@ async def mute_handler(message: Message):
 
     try:
         await mute(bot, message, target_user_id, until_date)
-        await message.reply(
-            f"Пользователь {message.reply_to_message.from_user.full_name} теперь отдыхает {beauti_time_arg(time_arg)}."
-        )
+        await message.delete()
+        # await message.reply(
+        #     f"Пользователь {message.reply_to_message.from_user.full_name} теперь отдыхает {beauti_time_arg(time_arg)}."
+        # )
 
     except Exception as e:
         logger.error("Error when trying to mute: " + str(e))
