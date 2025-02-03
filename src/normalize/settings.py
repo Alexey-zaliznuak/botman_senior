@@ -1,4 +1,5 @@
 STOP_KEYWORDS = [
+    "онлайн работа",
     "#деньги",
     "#обучение",
     "занятость удаленного формата",
@@ -102,7 +103,7 @@ NORMALIZE_KEYWORD: dict[str, str] = {
     # numerics
     "0": "о",
 
-    # others
+    # others(sames)
     "ё": "е",
 
     "@": "а",
