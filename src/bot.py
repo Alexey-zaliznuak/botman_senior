@@ -9,10 +9,11 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import requests
 
 from deleted_messages_checker import DeletedMessagesTracker
 from settings import Settings
-from utils import parse_time, beauti_time_arg, emojis_count, choose_command, mute
+from utils import parse_time, emojis_count, choose_command, mute
 from normalize import normalize_string
 
 
@@ -41,6 +42,11 @@ bot = Bot(token = Settings.BOT_TOKEN, default=DefaultBotProperties(parse_mode="M
 dp = Dispatcher()
 
 DeletedMessagesTracker = DeletedMessagesTracker(bot)
+
+@dp.message(Command("cbr"))
+async def chat_boty_cache_revalidate_handler(message: Message):
+    requests.get("https://chat-boty.com/client_api/revalidate")
+    await message.answer("Success")
 
 @dp.message(Command("mute"))
 async def mute_handler(message: Message):
