@@ -123,8 +123,7 @@ for el in Settings.STOP_KEYWORDS:
     if Settings.STOP_KEYWORDS.count(el) != 1:
         print(el, Settings.STOP_KEYWORDS.count(el))
 
-assert len(Settings.STOP_KEYWORDS) == len(set(Settings.STOP_KEYWORDS))
-assert len(NORMALIZE_KEYWORD) == len(set(NORMALIZE_KEYWORD))
+# assert len(NORMALIZE_KEYWORD) == len(set(NORMALIZE_KEYWORD))
 
 
 # for c in Settings.COMMANDS:

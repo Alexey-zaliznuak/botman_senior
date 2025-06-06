@@ -10,9 +10,10 @@ def normalize_string(t: str) -> str:
     return t
 
 def bulk_normalize(data: list[str]) -> list[str]:
+    data = set(data)
     new = []
 
     for el in data:
         new.append(normalize_string(el))
 
-    return new
+    return list(new)
