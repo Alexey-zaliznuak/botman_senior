@@ -152,7 +152,6 @@ async def validate_illegal(message: Message):
         parse_mode="html",
     )
 
-
 @dp.callback_query(lambda callback_query: "ban_" in callback_query.data)
 async def handle_ban_callback(callback_query: CallbackQuery):
     _, user_id, chat_id = callback_query.data.split("_")
