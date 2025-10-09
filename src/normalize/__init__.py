@@ -2,6 +2,9 @@ from normalize.settings import NORMALIZE_KEYWORD
 
 
 def normalize_string(t: str) -> str:
+    t = t.replace(".", "")
+    t = t.replace(",", "")
+    t = t.replace(";", "")
     t = ''.join(t.lower().split())
 
     for base_symbol, norm_symbol in NORMALIZE_KEYWORD.items():
