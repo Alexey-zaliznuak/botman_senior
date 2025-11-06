@@ -1,21 +1,23 @@
 import asyncio
 import logging
-import emoji
-
 from time import time
 
-from aiogram import F, Bot, Dispatcher
+import emoji
+import requests
+from aiogram import Bot, Dispatcher, F
 from aiogram.client.default import DefaultBotProperties
 from aiogram.filters import Command
-from aiogram.types import Message, CallbackQuery
-from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-import requests
+from aiogram.types import (
+    CallbackQuery,
+    InlineKeyboardButton,
+    InlineKeyboardMarkup,
+    Message,
+)
 
 from deleted_messages_checker import DeletedMessagesTracker
-from settings import Settings
-from utils import parse_time, emojis_count, choose_command, mute
 from normalize import normalize_string
-
+from settings import Settings
+from utils import choose_command, emojis_count, mute, parse_time
 
 SYSTEM_TELEGRAM_ID = "777000"
 
@@ -133,7 +135,11 @@ async def ban_handler(message: Message):
     )
 )
 async def validate_illegal(message: Message):
+    n = normalize_string(message.text)
     logger.info(f"Remove message from {message.from_user.username}, id: {message.from_user.id}, text: {message.text}")
+    for index, kw in enumerate(Settings.STOP_KEYWORDS):
+        if kw in n:
+            logger.info(f"Messaged removed by {kw}, stop keyword index: {index}")
 
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -208,5 +214,7 @@ async def main():
     # await setup_bot_commands()
     await dp.start_polling(bot, skip_updates=True)
 
+if __name__ == '__main__':
+    asyncio.run(main())
 if __name__ == '__main__':
     asyncio.run(main())
